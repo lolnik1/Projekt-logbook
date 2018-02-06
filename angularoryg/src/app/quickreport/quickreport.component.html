@@ -1,0 +1,50 @@
+<div class="bg-light pt-4">
+  <div class="container">
+    <form name="quick-report-form" (ngSubmit)="quickReportForm.form.valid && addIncidentReport()" name="quick-report-form" #quickReportForm="ngForm"
+      novalidate>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2>New Incident Report</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div [ngClass]="{ 'form-group': true, 'has-danger' : quickReportForm.submitted && !description.valid }">
+            <label class="form-control-label" for="description">Description:</label>
+            <input type="text" [ngClass]="{ 'form-control': true, 'form-control-danger is-invalid': quickReportForm.submitted && !description.valid }"
+              name="description" [(ngModel)]="formData.descr" #description="ngModel" required />
+            <div *ngIf="quickReportForm.submitted && !description.valid" class="form-text invalid-feedback">Description is required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div [ngClass]="{ 'form-group': true, 'has-danger' : quickReportForm.submitted && !type.valid }">
+            <label class="form-control-label" for="type">Type:</label>
+            <input type="text" [ngClass]="{ 'form-control': true, 'form-control-danger is-invalid': quickReportForm.submitted && !type.valid }"
+              name="type" [(ngModel)]="formData.type" #type="ngModel" required />
+            <div *ngIf="quickReportForm.submitted && !type.valid" class="form-text invalid-feedback">Type is required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div [ngClass]="{ 'form-group': true, 'has-danger' : quickReportForm.submitted && !itSystem.valid }">
+            <label class="form-control-label" for="it-system">IT System:</label>
+            <select class="form-control" #itSystem (change)="selectedItSystemChanged($event.target.value)">
+              <option *ngFor="let system of selectedEmployeeItSystems" [selected]="system.id === selectedItSystem.id">{{system.name}}</option>
+            </select>
+            <div *ngIf="quickReportForm.submitted && !itSystem.valid" class="form-text invalid-feedback">IT System is required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="form-group">
+            <button class="btn btn-block btn-primary">Add</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

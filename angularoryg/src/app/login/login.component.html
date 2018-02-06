@@ -1,0 +1,38 @@
+<div class="bg-light pt-4">
+  <div class="container">
+    <form name="login-form" (ngSubmit)="loginForm.form.valid && login()" name="login-form" #loginForm="ngForm" novalidate>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2>Login</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div [ngClass]="{ 'form-group': true, 'has-danger' : loginForm.submitted && !username.valid }">
+            <label class="form-control-label" for="username">Username:</label>
+            <input type="text" [ngClass]="{ 'form-control': true, 'form-control-danger is-invalid': loginForm.submitted && !username.valid }"
+              name="username" [(ngModel)]="loginData.username" #username="ngModel" required />
+            <div *ngIf="loginForm.submitted && !username.valid" class="form-text invalid-feedback">Username is required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div [ngClass]="{ 'form-group': true, 'has-danger' : loginForm.submitted && !password.valid }">
+            <label class="form-control-label" for="password">Password:</label>
+            <input type="password" [ngClass]="{ 'form-control': true, 'form-control-danger is-invalid': loginForm.submitted && !password.valid }"
+              name="password" [(ngModel)]="loginData.password" #password="ngModel" required />
+            <div *ngIf="loginForm.submitted && !password.valid" class="form-text invalid-feedback">Password is required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="form-group">
+            <button [disabled]="loading" class="btn btn-block btn-primary">Login</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<div *ngIf="!inQuickReport" class="m-4">
+  <div class="row">
+    <div class="col">
+      <h4>System incident reports
+        <i class="text-mute">({{selectedItSystem.name}})</i>
+      </h4>
+
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action bg-secondary" style="border-radius:0">
+          <div class="row justify-content-between">
+            <div class="col">
+              <input id="search-box" #searchBox (keyup)="search(searchBox.value)" class="form-control" type="search" placeholder="Search by type"
+                aria-label="Search">
+            </div>
+            <div class="col">
+              <button class="btn btn-block btn-outline-light" (click)="goToQuickReport()" type="submit">New report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Creation date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="inSearchMode; else notInSearchMode">
+              <tr (click)="selectIncidentReport(incidentReport)" *ngFor="let incidentReport of incidentReports$ | async; let i = index" [ngClass]="{ 'bg-primary text-light': selectedIncidentReport === incidentReport }">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{incidentReport.incident.descr}}</td>
+                <td>{{incidentReport.incident.type}}</td>
+                <td>{{incidentReport.addDate | date:'yyyy-MM-dd'}}</td>
+              </tr>
+            </ng-container>
+            <ng-template #notInSearchMode>
+              <tr (click)="selectIncidentReport(incidentReport)" *ngFor="let incidentReport of allIncidentReports; index as i" [ngClass]="{ 'bg-primary text-light': selectedIncidentReport === incidentReport }">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{incidentReport.incident.descr}}</td>
+                <td>{{incidentReport.incident.type}}</td>
+                <td>{{incidentReport.addDate | date:'yyy-MM-dd'}}</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+
+      <!--  -->
+      <!-- <div class="table-responsive">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Creation date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let incidentReport of incidentReports; index as i">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{incidentReport.incident.descr}}</td>
+              <td>{{incidentReport.incident.type}}</td>
+              <td>{{incidentReport.addDate | date:'medium'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+
+
+      <!-- <div class="list-group" style="overflow:auto">
+        <a *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8]" class="list-group-item list-group-item-action" href="#">{{i}}
+        </a>
+      </div> -->
+    </div>
+  </div>
+</div>
+<app-quickreport *ngIf="inQuickReport" [selectedEmployee]="selectedEmployee" [selectedEmployeeItSystems]="selectedEmployeeItSystems"
+  [selectedItSystem]="selectedItSystem" (onIncidentReportAdded)="onIncidentReportAdded($event)"></app-quickreport>

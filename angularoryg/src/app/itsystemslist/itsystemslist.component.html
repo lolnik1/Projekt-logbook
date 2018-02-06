@@ -1,0 +1,50 @@
+<div *ngIf="!inDetailsMode" id="it-systems-list">
+  <div class="m-2">
+    <div class="row">
+
+      <div class="col-md-6 mb-4">
+
+        <h4 *ngIf="itSystems.length; else noSystemsTemplate">Your IT Systems</h4>
+        <ng-template #noSystemsTemplate>
+          <div class="alert alert-info">
+            You do not have any IT Systems.
+          </div>
+        </ng-template>
+
+        <div class="h-75">
+          <div class="list-group border-top" style="overflow:auto">
+            <a *ngFor="let itSystem of itSystems; index as i" [ngClass]="{ 'list-group-item list-group-item-action justify-content-between align-items-center': true, 'border-top-0': i === 0, 'active': itSystem === selectedItSystem }"
+              style="border-radius:0" href="#" (click)=selectItSystem(itSystem)>{{itSystem.name}}
+              <span [ngClass]="{'float-right badge badge-pill': true, 'badge-light': itSystem === selectedItSystem, 'badge-primary': itSystem !== selectedItSystem}">{{countItSystemIncidentReports(itSystem)}}</span>
+              <small>{{itSystem.name !== itSystem.descr ? '(' + itSystem.descr + ')' : ''}}</small>
+            </a>
+          </div>
+          <div id="it-system-details-button">
+            <button class="btn btn-block btn-outline-primary" style="border-radius:0" type="button" (click)="goToItSystemDetails()">See details</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xs-1">
+      </div>
+
+      <div class="col-md-6">
+
+        <h4>Your last reports</h4>
+
+        <div class="h-75 list-group border-top border-bottom" style="overflow:auto">
+          <a *ngFor="let incidentReport of lastFiveIncidentReports; let i = index" [ngClass]="{ 'list-group-item list-group-item-action': true, 'border-top-0': i === 0, 'border-bottom-0': i === lastFiveIncidentReports.length - 1 }"
+            style="border-radius: 0" href="#">{{i + 1}} - {{incidentReport.incident.descr}}
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="inDetailsMode" id="it-system-details">
+  <app-itsystemdetails [selectedItSystem]="selectedItSystem" [selectedEmployee]="selectedEmployee" [selectedEmployeeItSystems]="itSystems"
+    [inQuickReport]="inQuickReport"></app-itsystemdetails>
+</div>
